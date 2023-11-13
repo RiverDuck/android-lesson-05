@@ -8,6 +8,29 @@
         </ul>
     </body>
     <script>
-        // 이곳에 코드를 구현하십시오.
-    </script>
+    async function loadData(){
+
+        const response = await fetch('/api/v1/data/list', {
+                            method: 'POST', // POST 요청으로 변경
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+
+                        const data = await response.json();
+
+                        const list = document.getElementById('dataList');
+                        list.innerHTML = '';
+                        data.forEach(item => {
+                            const listItem = document.createElement('li');
+                            listItem.textContent = item.text;
+                            list.appendChild(listItem);
+                        });
+}
+window.addEventListener('load', loadData);
+</script>
 </html>
